@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AMD UI
 
-## Getting Started
+Front‑end for the **Study Buddy** API (FastAPI backend located in `AMD_HACKATHON`).
+Interactive React components allow you to generate questions, full tests, interview prompts,
+analyze performance, and validate math expressions using the Python server.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+* **GATE question generator** – choose subject/topic/difficulty/type/language and see the generated content with optional audio playback.
+* **Full test creator** – produce a complete exam paper with configurable duration, language and type (GATE/Placement).
+* **Interview question generator** – supply a role/domain/difficulty and receive a structured interview question and answer.
+* **Performance analytics** – paste JSON scores and get strength, weakness and readiness reports.
+* **Math validator** – evaluate symbolic expressions and return solutions via Sympy.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Development
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Start the backend API (ensure you have Python 3.11+):
+   ```bash
+   cd ../AMD_HACKATHON
+   python -m venv .venv   # or your preferred environment
+   pip install -r requirements.txt
+   uvicorn main:app --reload --port 8000
+   # (optional) use main_demo.py for sample static responses
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. Run the UI:
+   ```bash
+   cd ../amd-ui
+   npm install
+   npm run dev
+   ```
 
-## Learn More
+3. Browse to [http://localhost:3000](http://localhost:3000) and use the navigation bar to switch tools.
 
-To learn more about Next.js, take a look at the following resources:
+The client defaults to `http://localhost:8000` as the API base; you can override with
+`NEXT_PUBLIC_API_BASE` in `.env.local`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Notes
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+* API endpoints:
+  * `GET /languages`, `GET /subjects` – metadata used by forms.
+  * `POST /generate-gate-question` – accept `subject`, `topic`, `difficulty`, `qtype`, `language`, `include_audio`.
+  * `POST /generate-full-test` – accept `language`, `duration_minutes`, `test_type`, `include_solutions`.
+  * `POST /interview-agent` – accept `role`, `domain`, `language`, `difficulty`, `include_audio`.
+  * `POST /performance-analytics` – accept `{attempts: {topic:score,...}, user_id?}`.
+  * `POST /validate-math` – accept `{expression, variable}`.
+  * `GET /audio/{filename}` – stream generated mp3 files.
 
-## Deploy on Vercel
+* UI components are in `app/components`. Feel free to add validation, error handling, styling or convert
+  to a more polished design (tabs, modals, etc.).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+* This repo uses the Next.js App Router (`app` directory) with Tailwind CSS for quick styling.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Happy studying!
