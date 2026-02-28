@@ -1,6 +1,6 @@
 # AMD UI
 
-Front‑end for the **Study Buddy** API (FastAPI backend located in `AMD_HACKATHON`).
+Front‑end for the **AI Powered Engineering Platform** API (FastAPI backend located in `AMD_HACKATHON`).
 Interactive React components allow you to generate questions, full tests, interview prompts,
 analyze performance, and validate math expressions using the Python server.
 
@@ -51,4 +51,4 @@ The client defaults to `http://localhost:8000` as the API base; you can override
 
 * This repo uses the Next.js App Router (`app` directory) with Tailwind CSS for quick styling.
 
-Happy studying!
+Thank you.
